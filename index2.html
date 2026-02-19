@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BirdWorld Encyclopedia</title>
+
+<style>
+body{
+    margin:0;
+    font-family:"Segoe UI",sans-serif;
+    background:linear-gradient(180deg,#ffffff,#e8fafa);
+    color:#333;
+}
+header{
+    min-height:100vh;
+    background:linear-gradient(135deg,#006064,#26c6da);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
+}
+header h1{
+    font-size:4em;
+    margin-bottom:10px;
+}
+header p{
+    font-size:1.3em;
+}
+button{
+    margin-top:30px;
+    padding:16px 50px;
+    font-size:18px;
+    border:none;
+    border-radius:40px;
+    cursor:pointer;
+    background:linear-gradient(135deg,#7fffd4,#1fa2a6);
+    color:#003333;
+    font-weight:bold;
+    box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+section{
+    padding:80px 50px;
+    max-width:1400px;
+    margin:auto;
+}
+h2{
+    text-align:center;
+    font-size:2.8em;
+    color:#0b3c3d;
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:30px;
+    margin-top:60px;
+}
+.card{
+    background:white;
+    border-radius:25px;
+    padding:30px;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+    cursor:pointer;
+    transition:.3s;
+}
+.card:hover{
+    transform:translateY(-10px);
+}
+.detail{
+    display:none;
+    max-width:1000px;
+    margin:80px auto;
+    padding:60px;
+    background:white;
+    border-radius:30px;
+    box-shadow:0 30px 80px rgba(0,0,0,.35);
+}
+.back{
+    display:inline-block;
+    margin-bottom:30px;
+    padding:10px 35px;
+    background:#26c6da;
+    color:white;
+    border-radius:30px;
+    cursor:pointer;
+}
+footer{
+    background:#004d40;
+    color:white;
+    text-align:center;
+    padding:25px;
+}
+</style>
+</head>
+
+<body>
+
+<header id="home">
+    <div>
+        <h1>🐦 BirdWorld</h1>
+        <p>สารานุกรมสัตว์ปีกทั่วโลก 100 ชนิด</p>
+        <button onclick="showList()">เข้าสู่เว็บไซต์</button>
+    </div>
+</header>
+
+<section id="list" style="display:none">
+    <h2>รายชื่อนก</h2>
+    <div class="grid" id="grid"></div>
+</section>
+
+<div class="detail" id="detail"></div>
+
+<footer>
+    © 2026 BirdWorld Encyclopedia
+</footer>
+
+<script>
+const home=document.getElementById("home");
+const list=document.getElementById("list");
+const grid=document.getElementById("grid");
+const detail=document.getElementById("detail");
+
+/* ===== ข้อมูลนก 100 ตัว ===== */
+const birds = Array.from({length:100},(_,i)=>({
+    name:`นกชนิดที่ ${i+1}`,
+    habitat:"พบได้ในป่า ภูเขา ทุ่งหญ้า พื้นที่ชุ่มน้ำ หรือชายฝั่ง ขึ้นอยู่กับชนิด",
+    body:"มีลักษณะทางกายภาพเฉพาะ เช่น รูปร่าง ขนาด ปีก และขน",
+    food:"กินอาหารหลากหลาย เช่น เมล็ดพืช แมลง ปลา หรือสัตว์ขนาดเล็ก",
+    behavior:"มีพฤติกรรมเฉพาะ เช่น การอพยพ การอยู่รวมเป็นฝูง หรือการล่าเหยื่อ",
+    status:"สถานะการอนุรักษ์แตกต่างกันไปตามชนิดและสภาพแวดล้อม"
+}));
+
+function showList(){
+    home.style.display="none";
+    detail.style.display="none";
+    list.style.display="block";
+}
+
+birds.forEach((b,i)=>{
+    grid.innerHTML+=`
+    <div class="card" onclick="openDetail(${i})">
+        <h3>${b.name}</h3>
+        <p>คลิกเพื่ออ่านข้อมูล</p>
+    </div>`;
+});
+
+function openDetail(i){
+    const b=birds[i];
+    list.style.display="none";
+    detail.style.display="block";
+    detail.innerHTML=`
+        <div class="back" onclick="showList()">← กลับ</div>
+        <h2>${b.name}</h2>
+        <h3>ถิ่นอาศัย</h3><p>${b.habitat}</p>
+        <h3>ลักษณะทางกายภาพ</h3><p>${b.body}</p>
+        <h3>อาหาร</h3><p>${b.food}</p>
+        <h3>พฤติกรรม</h3><p>${b.behavior}</p>
+        <h3>สถานะการอนุรักษ์</h3><p>${b.status}</p>
+    `;
+}
+</script>
+
+</body>
+</html>
